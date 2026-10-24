@@ -122,6 +122,29 @@
           "items": {
             "$ref": "#/$defs/sensorElement"
           }
+        },
+        "scotf:trackerPlacement": {
+          "type": "object",
+          "description": "Where the tracker sits on the pallet and on the load. The placement guidelines are written for full loads, and Pilot 1 ships less than truckload, so the placement is recorded rather than assumed: a reader can then judge what the reading represents.",
+          "required": [
+            "description"
+          ],
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "photoRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://"
+              },
+              "$comment": "By reference, as in Profile 2; a data: URI is a well formed URI, so the pattern does the work that format cannot."
+            }
+          },
+          "additionalProperties": false
         }
       }
     },
