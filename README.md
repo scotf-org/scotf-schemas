@@ -47,6 +47,18 @@ receiver needs, and two gaps are worth naming because the profiles close them:
   binds `scotf` to a namespace, which leaves a receiver unable to resolve it. The profiles require
   the declaration.
 
+### Position and light
+
+Pilot 1 measures temperature, location and light. Two of the three are named by the standard:
+`Temperature` and `Illuminance` are tokens in the GS1 EPCIS 2.0 `measurementType` vocabulary, so
+the profile uses them as they stand.
+
+The vocabulary has **no geographic position type**. The standard's own extension point for this is
+a measurement type named by a non-GS1 vocabulary URI, so position is
+`https://ref.scotf.org/epcis-ext/Position` rather than an invented bare token, and it must carry
+`coordinateReferenceSystem` (`EPSG:4326` is WGS 84). A coordinate without its reference frame
+cannot be placed on a map, and the standard does not require the frame, so the profile does.
+
 `examples/*/invalid/` holds documents that are wrong on purpose. Each has a sidecar saying which
 error it should produce and why, so the rule it documents cannot quietly stop being enforced.
 
