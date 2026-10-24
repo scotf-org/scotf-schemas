@@ -1,0 +1,4 @@
+{
+  "error": "must be equal to constant",
+  "why": "A sensor reading carried on a shipping step. Profile 1 is for sensor_reporting; a reading on another step belongs in a different profile."
+}

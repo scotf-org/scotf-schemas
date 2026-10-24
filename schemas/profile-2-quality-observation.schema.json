@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ref.scotf.org/schemas/epcis/profile-2-quality-observation/1.0.json",
+  "title": "SCOTF Profile 2 · quality observation event with inspection attributes",
+  "description": "Constraints the SCOTF pilots place on top of the GS1 EPCIS 2.0 JSON Schema for an inspection recorded at a hand-off. Quality attributes the standard does not define live under the SCOTF namespace, and photographs are carried by reference rather than inline. This schema extends the standard and does not restate it: an event must satisfy the GS1 schema as well. Part of SCOTF Schemas, contributed by TOTEM LLC, Apache-2.0.",
+  "$comment": "Built with TOTEM Agentic OS (TAO) https://url.totemltd.com/tao",
+  "type": "object",
+  "required": ["@context", "type", "schemaVersion", "epcisBody"],
+  "properties": {
+    "@context": { "$ref": "#/$defs/contextDeclaringScotf" },
+    "type": { "const": "EPCISDocument" },
+    "schemaVersion": { "type": "string", "pattern": "^2\\.0" },
+    "epcisBody": {
+      "type": "object",
+      "required": ["eventList"],
+      "properties": {
+        "eventList": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/qualityEvent" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contextDeclaringScotf": {
+      "description": "An extension field whose prefix is not declared in the document context is not interoperable: a receiver cannot resolve what scotf:ripenessStage means. The GS1 schema accepts an undeclared prefix, so this profile requires the declaration.",
+      "type": "array",
+      "allOf": [
+        {
+          "contains": { "const": "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld" }
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": ["scotf"],
+            "properties": { "scotf": { "const": "https://ref.scotf.org/epcis-ext/" } }
+          }
+        }
+      ]
+    },
+    "qualityEvent": {
+      "type": "object",
+      "required": [
+        "type", "eventTime", "eventTimeZoneOffset", "action",
+        "bizStep", "disposition", "readPoint", "scotf:inspection"
+      ],
+      "properties": {
+        "type": { "const": "ObjectEvent" },
+        "action": { "const": "OBSERVE" },
+        "bizStep": { "const": "inspecting" },
+        "disposition": {
+          "enum": ["conformant", "non_conformant"],
+          "$comment": "An inspection records a verdict, so the disposition is one of the two the CBV offers for it."
+        },
+        "readPoint": {
+          "type": "object",
+          "required": ["id"],
+          "properties": { "id": { "$ref": "#/$defs/sglnUrn" } }
+        },
+        "scotf:inspection": { "$ref": "#/$defs/inspection" }
+      },
+      "anyOf": [
+        { "required": ["epcList"] },
+        { "required": ["quantityList"] }
+      ],
+      "$comment": "An inspection must name what was inspected. A serialised unit uses epcList; a lot inspected as a class uses quantityList, which is the grain a GTIN with a lot can give."
+    },
+    "inspection": {
+      "type": "object",
+      "description": "Quality attributes EPCIS does not define. They sit under the SCOTF namespace so the standard is extended and never changed.",
+      "required": ["inspectedBy", "acceptable"],
+      "properties": {
+        "inspectedBy": {
+          "enum": ["supplier", "distributor", "receiver"],
+          "$comment": "The role, never a named person: these events are shared across companies."
+        },
+        "acceptable": {
+          "type": "boolean",
+          "$comment": "The one question the restaurant check asks."
+        },
+        "ripenessStage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "$comment": "The supplier's existing scale, carried so the number means the same thing at shipment and at arrival. Recorded, not modelled."
+        },
+        "defects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "unitsAffected"],
+            "properties": {
+              "type": { "type": "string", "minLength": 1 },
+              "unitsAffected": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "temperature": {
+          "type": "object",
+          "required": ["value", "uom"],
+          "properties": {
+            "value": { "type": "number" },
+            "uom": { "enum": ["CEL", "FAH"] }
+          },
+          "additionalProperties": false
+        },
+        "photoRefs": {
+          "type": "array",
+          "description": "Photographs are carried by reference. An EPCIS event is a record to be exchanged and queried, not an image store, and a base64 photograph in an event makes it unusable at volume. A data: URI is a well formed URI, so format alone does not express this: the reference must be retrievable over http or https.",
+          "items": { "type": "string", "format": "uri", "pattern": "^https?://" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "sglnUrn": {
+      "type": "string",
+      "pattern": "^urn:epc:id:sgln:[0-9]{6,12}\\.[0-9]{0,6}\\.[0-9A-Za-z()%\\-]*$"
+    }
+  }
+}

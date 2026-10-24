@@ -1,0 +1,29 @@
+{
+  "name": "scotf-schemas",
+  "version": "0.1.0",
+  "description": "SCOTF EPCIS 2.0 event profiles for the fresh produce supply chain: JSON Schemas, worked examples and a validator.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "scotf-validate": "bin/scotf-validate.mjs"
+  },
+  "files": [
+    "schemas/",
+    "src/",
+    "bin/",
+    "NOTICE"
+  ],
+  "scripts": {
+    "fetch:gs1": "node scripts/fetch-gs1-schema.mjs",
+    "pretest": "npm run fetch:gs1",
+    "test": "node --test \"test/**/*.test.mjs\"",
+    "validate": "node bin/scotf-validate.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

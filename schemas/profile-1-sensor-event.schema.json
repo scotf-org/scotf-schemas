@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ref.scotf.org/schemas/epcis/profile-1-sensor-event/1.0.json",
+  "title": "SCOTF Profile 1 · sensor-enabled ObjectEvent for transit monitoring",
+  "description": "Constraints the SCOTF pilots place on top of the GS1 EPCIS 2.0 JSON Schema for a tracker reading carried against a logistics unit. This schema extends the standard and does not restate it: an event must satisfy the GS1 schema as well. Part of SCOTF Schemas, contributed by TOTEM LLC, Apache-2.0.",
+  "$comment": "Built with TOTEM Agentic OS (TAO) https://url.totemltd.com/tao",
+  "type": "object",
+  "required": ["@context", "type", "schemaVersion", "epcisBody"],
+  "properties": {
+    "@context": { "$ref": "#/$defs/contextDeclaringScotf" },
+    "type": { "const": "EPCISDocument" },
+    "schemaVersion": { "type": "string", "pattern": "^2\\.0" },
+    "epcisBody": {
+      "type": "object",
+      "required": ["eventList"],
+      "properties": {
+        "eventList": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/sensorEvent" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contextDeclaringScotf": {
+      "description": "An extension field whose prefix is not declared in the document context is not interoperable: a receiver cannot resolve what scotf:ripenessStage means. The GS1 schema accepts an undeclared prefix, so this profile requires the declaration.",
+      "type": "array",
+      "allOf": [
+        {
+          "contains": { "const": "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld" },
+          "$comment": "The EPCIS 2.0 context must be present."
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": ["scotf"],
+            "properties": { "scotf": { "const": "https://ref.scotf.org/epcis-ext/" } }
+          },
+          "$comment": "The SCOTF prefix must be bound to its namespace."
+        }
+      ]
+    },
+    "sensorEvent": {
+      "type": "object",
+      "required": [
+        "type", "eventTime", "eventTimeZoneOffset", "action",
+        "bizStep", "disposition", "epcList", "readPoint", "sensorElementList"
+      ],
+      "properties": {
+        "type": { "const": "ObjectEvent" },
+        "action": {
+          "const": "OBSERVE",
+          "$comment": "A reading observes the unit; it neither starts nor ends its life."
+        },
+        "bizStep": { "const": "sensor_reporting" },
+        "disposition": {
+          "enum": ["in_transit", "in_progress", "conformant", "non_conformant"]
+        },
+        "epcList": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/ssccUrn" },
+          "$comment": "Readings are carried against the logistics unit, so the pilots can join events from different companies on one pallet."
+        },
+        "readPoint": {
+          "type": "object",
+          "required": ["id"],
+          "properties": { "id": { "$ref": "#/$defs/sglnUrn" } }
+        },
+        "sensorElementList": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/sensorElement" }
+        }
+      }
+    },
+    "sensorElement": {
+      "type": "object",
+      "required": ["sensorReport"],
+      "properties": {
+        "sensorMetadata": {
+          "type": "object",
+          "properties": {
+            "startTime": { "type": "string", "format": "date-time" },
+            "endTime": { "type": "string", "format": "date-time" },
+            "deviceID": { "type": "string", "minLength": 1 }
+          }
+        },
+        "sensorReport": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/sensorReport" }
+        }
+      }
+    },
+    "sensorReport": {
+      "type": "object",
+      "required": ["type", "uom"],
+      "properties": {
+        "type": { "enum": ["Temperature", "RelativeHumidity", "Illuminance"] },
+        "uom": { "$ref": "#/$defs/uomCode" },
+        "value": { "type": "number" },
+        "minValue": { "type": "number" },
+        "maxValue": { "type": "number" },
+        "meanValue": { "type": "number" },
+        "sDev": { "type": "number" },
+        "deviceID": { "type": "string", "minLength": 1 }
+      },
+      "anyOf": [
+        { "required": ["value"] },
+        { "required": ["minValue", "maxValue"] },
+        { "required": ["meanValue"] }
+      ],
+      "allOf": [
+        {
+          "$comment": "The GS1 schema does not check a unit against the UN/CEFACT code list, so a reading in 'ZZZ' or a temperature in kilograms passes it. Each measured property is pinned to the codes that can express it.",
+          "if": { "properties": { "type": { "const": "Temperature" } }, "required": ["type"] },
+          "then": { "properties": { "uom": { "enum": ["CEL", "FAH"] } } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "RelativeHumidity" } }, "required": ["type"] },
+          "then": { "properties": { "uom": { "enum": ["P1"] } } }
+        },
+        {
+          "if": { "properties": { "type": { "const": "Illuminance" } }, "required": ["type"] },
+          "then": { "properties": { "uom": { "enum": ["LUX"] } } }
+        }
+      ]
+    },
+    "uomCode": {
+      "description": "UN/CEFACT Recommendation 20 common code: CEL degree Celsius, FAH degree Fahrenheit, P1 percent, LUX lux.",
+      "enum": ["CEL", "FAH", "P1", "LUX"]
+    },
+    "ssccUrn": {
+      "type": "string",
+      "pattern": "^urn:epc:id:sscc:[0-9]{6,12}\\.[0-9]{5,11}$"
+    },
+    "sglnUrn": {
+      "type": "string",
+      "pattern": "^urn:epc:id:sgln:[0-9]{6,12}\\.[0-9]{0,6}\\.[0-9A-Za-z()%\\-]*$"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    {
+      "scotf": "https://ref.scotf.org/epcis-ext/"
+    }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-10-24T12:00:00.000Z",
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-10-24T11:45:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": [
+          "urn:epc:id:sgln:0614141.00001.0"
+        ],
+        "readPoint": {
+          "id": "urn:epc:id:sgln:0614141.00001.0"
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "startTime": "2026-10-24T10:45:00.000-07:00",
+              "endTime": "2026-10-24T11:45:00.000-07:00",
+              "deviceID": "urn:example:device:tracker-0042"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "minValue": 1.8,
+                "maxValue": 3.4,
+                "meanValue": 2.5,
+                "uom": "CEL"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

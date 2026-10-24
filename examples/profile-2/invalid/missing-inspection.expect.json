@@ -1,0 +1,4 @@
+{
+  "error": "must have required property 'scotf:inspection'",
+  "why": "An inspecting event that records no inspection. The GS1 schema is satisfied because the extension is optional to it; the profile requires the payload that makes the event worth sending."
+}

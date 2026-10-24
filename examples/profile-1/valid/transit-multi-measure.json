@@ -1,0 +1,32 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    { "scotf": "https://ref.scotf.org/epcis-ext/" }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-10-24T12:00:00.000Z",
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-10-24T11:45:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": ["urn:epc:id:sscc:0614141.1234567890"],
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00001.0" },
+        "sensorElementList": [
+          {
+            "sensorReport": [
+              { "type": "Temperature", "value": 2.5, "uom": "CEL" },
+              { "type": "RelativeHumidity", "value": 88, "uom": "P1" },
+              { "type": "Illuminance", "value": 0, "uom": "LUX" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
