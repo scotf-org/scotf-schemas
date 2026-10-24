@@ -1,0 +1,4 @@
+{
+  "error": "must contain",
+  "why": "The document uses the SCOTF namespace but never binds the prefix in @context, so a receiver cannot resolve what the extension fields mean. The GS1 schema accepts this; the profile does not."
+}

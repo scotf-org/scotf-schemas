@@ -1,0 +1,4 @@
+{
+  "error": "must match a schema in anyOf",
+  "why": "An inspection that names neither a serialised unit nor a lot, so nothing says what was inspected."
+}

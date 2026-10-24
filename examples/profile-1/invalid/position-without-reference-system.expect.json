@@ -1,0 +1,4 @@
+{
+  "error": "must have required property 'coordinateReferenceSystem'",
+  "why": "A latitude with no reference frame. The number alone cannot be placed on a map, and the GS1 schema does not require the frame, so the profile does."
+}
