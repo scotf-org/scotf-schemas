@@ -8,8 +8,9 @@
 // its notes and coverage report. Every step is deterministic from the seed.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
-import { validateDocument, PROFILES } from '../src/validate.mjs';
-import { fetchGs1Schema } from '../scripts/fetch-gs1-schema.mjs';
+import { fileURLToPath } from 'node:url';
+import { validateDocument } from '../src/validate.mjs';
+import { fetchGs1Schema, GS1_SCHEMA_PATH } from '../scripts/fetch-gs1-schema.mjs';
 import { deriveKeys, deidentifyDocument } from '../src/deidentify.mjs';
 import { runRiskReview } from '../src/risk-review.mjs';
 import { unionPaths } from '../src/union-paths.mjs';
@@ -127,11 +128,15 @@ for (const t of treated) {
   writeFileSync(join(outDir, name), JSON.stringify(t.doc, null, 2) + '\n');
 }
 
+// Resolved from this file rather than from the working directory, and converted with
+// fileURLToPath rather than by trimming the URL pathname: on Windows a file URL path begins
+// "/C:/..." and the leading slash is noise, while on Linux that slash is the root. Trimming it
+// works on one platform and silently produces a relative path on the other.
 const paths = unionPaths({
-  gs1Path: new URL('../vendor/gs1/epcis-json-schema.json', import.meta.url).pathname.replace(/^\//, ''),
+  gs1Path: GS1_SCHEMA_PATH,
   profilePaths: [
-    'schemas/profile-1-sensor-event.schema.json',
-    'schemas/profile-2-quality-observation.schema.json'
+    fileURLToPath(new URL('../schemas/profile-1-sensor-event.schema.json', import.meta.url)),
+    fileURLToPath(new URL('../schemas/profile-2-quality-observation.schema.json', import.meta.url))
   ]
 });
 
