@@ -56,8 +56,11 @@ the profile uses them as they stand.
 The vocabulary has **no geographic position type**. The standard's own extension point for this is
 a measurement type named by a non-GS1 vocabulary URI, so position is
 `https://ref.scotf.org/epcis-ext/Position` rather than an invented bare token, and it must carry
-`coordinateReferenceSystem` (`EPSG:4326` is WGS 84). A coordinate without its reference frame
-cannot be placed on a map, and the standard does not require the frame, so the profile does.
+`coordinateReferenceSystem` (`EPSG:4326` is WGS 84) and a `uom` of `DD`, decimal degrees. A
+coordinate without its reference frame cannot be placed on a map, and the standard does not
+require the frame, so the profile does. The frame is not the unit: a bare `36.7378` could be
+degrees, radians or grads, so position is pinned to a unit code in the same way the three GS1
+measurement types are.
 
 ### Exceptions
 

@@ -331,9 +331,17 @@
           },
           "then": {
             "required": [
-              "coordinateReferenceSystem"
+              "coordinateReferenceSystem",
+              "uom"
             ],
-            "$comment": "A coordinate without its reference frame cannot be placed on a map."
+            "properties": {
+              "uom": {
+                "enum": [
+                  "DD"
+                ]
+              }
+            },
+            "$comment": "A coordinate without its reference frame cannot be placed on a map, and a bare 36.7378 could be degrees, radians or grads. The reference system names the frame; the unit names what the numbers are. Position is therefore pinned to DD, decimal degrees, in the same way each GS1 measurement type is pinned to the codes that can express it."
           }
         },
         {
