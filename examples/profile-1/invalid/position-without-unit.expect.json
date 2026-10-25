@@ -1,0 +1,4 @@
+{
+  "error": "must have required property 'uom'",
+  "why": "A position reported with a reference system but no unit. The reference system names the frame the coordinate sits in; it does not say what the numbers are, and a bare 36.7378 could be degrees, radians or grads. Position is pinned to DD, decimal degrees, in the same way each GS1 measurement type is pinned to the codes that can express it."
+}
