@@ -1,0 +1,374 @@
+{
+  "synthetic": true,
+  "note": "Every property path a Profile 1 or Profile 2 event may carry, with the treatment row that covers it.",
+  "rowsInTable": 66,
+  "pathsChecked": 71,
+  "excluded": [
+    {
+      "path": "ilmd",
+      "reason": "Cannot appear: both profiles pin action to OBSERVE, and EPCIS 2.0 permits ilmd only with ADD."
+    }
+  ],
+  "paths": [
+    {
+      "path": "@context",
+      "treatment": "keep",
+      "coveredBy": "@context"
+    },
+    {
+      "path": "action",
+      "treatment": "keep",
+      "coveredBy": "action"
+    },
+    {
+      "path": "bizLocation.id",
+      "treatment": "site-role",
+      "coveredBy": "bizLocation.id"
+    },
+    {
+      "path": "bizStep",
+      "treatment": "keep",
+      "coveredBy": "bizStep"
+    },
+    {
+      "path": "bizTransactionList.bizTransaction",
+      "treatment": "suppress",
+      "coveredBy": "bizTransactionList"
+    },
+    {
+      "path": "bizTransactionList.type",
+      "treatment": "suppress",
+      "coveredBy": "bizTransactionList"
+    },
+    {
+      "path": "certificationInfo",
+      "treatment": "suppress",
+      "coveredBy": "certificationInfo"
+    },
+    {
+      "path": "destinationList.destination",
+      "treatment": "suppress",
+      "coveredBy": "destinationList"
+    },
+    {
+      "path": "destinationList.type",
+      "treatment": "suppress",
+      "coveredBy": "destinationList"
+    },
+    {
+      "path": "disposition",
+      "treatment": "keep",
+      "coveredBy": "disposition"
+    },
+    {
+      "path": "epcList",
+      "treatment": "sscc-pseudonym",
+      "coveredBy": "epcList"
+    },
+    {
+      "path": "errorDeclaration.correctiveEventIDs",
+      "treatment": "hash-each",
+      "coveredBy": "errorDeclaration.correctiveEventIDs"
+    },
+    {
+      "path": "errorDeclaration.declarationTime",
+      "treatment": "shift",
+      "coveredBy": "errorDeclaration.declarationTime"
+    },
+    {
+      "path": "errorDeclaration.reason",
+      "treatment": "keep",
+      "coveredBy": "errorDeclaration.reason"
+    },
+    {
+      "path": "eventID",
+      "treatment": "hash",
+      "coveredBy": "eventID"
+    },
+    {
+      "path": "eventTime",
+      "treatment": "shift-round-minute",
+      "coveredBy": "eventTime"
+    },
+    {
+      "path": "eventTimeZoneOffset",
+      "treatment": "offset-utc",
+      "coveredBy": "eventTimeZoneOffset"
+    },
+    {
+      "path": "ilmd",
+      "treatment": "excluded",
+      "coveredBy": null
+    },
+    {
+      "path": "persistentDisposition.set",
+      "treatment": "keep-controlled",
+      "coveredBy": "persistentDisposition"
+    },
+    {
+      "path": "persistentDisposition.unset",
+      "treatment": "keep-controlled",
+      "coveredBy": "persistentDisposition"
+    },
+    {
+      "path": "quantityList.epcClass",
+      "treatment": "lgtin-pseudonym",
+      "coveredBy": "quantityList.epcClass"
+    },
+    {
+      "path": "quantityList.quantity",
+      "treatment": "band",
+      "coveredBy": "quantityList.quantity"
+    },
+    {
+      "path": "quantityList.uom",
+      "treatment": "keep",
+      "coveredBy": "quantityList.uom"
+    },
+    {
+      "path": "readPoint.id",
+      "treatment": "site-role",
+      "coveredBy": "readPoint.id"
+    },
+    {
+      "path": "recordTime",
+      "treatment": "shift",
+      "coveredBy": "recordTime"
+    },
+    {
+      "path": "scotf:inspection.acceptable",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.acceptable"
+    },
+    {
+      "path": "scotf:inspection.defects.type",
+      "treatment": "group-rare",
+      "coveredBy": "scotf:inspection.defects.type"
+    },
+    {
+      "path": "scotf:inspection.defects.unitsAffected",
+      "treatment": "band-if-large",
+      "coveredBy": "scotf:inspection.defects.unitsAffected"
+    },
+    {
+      "path": "scotf:inspection.exceptions",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.exceptions"
+    },
+    {
+      "path": "scotf:inspection.inspectedBy",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.inspectedBy"
+    },
+    {
+      "path": "scotf:inspection.observedShelfLifeDays",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.observedShelfLifeDays"
+    },
+    {
+      "path": "scotf:inspection.photoRefs",
+      "treatment": "suppress",
+      "coveredBy": "scotf:inspection.photoRefs"
+    },
+    {
+      "path": "scotf:inspection.ripenessStage",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.ripenessStage"
+    },
+    {
+      "path": "scotf:inspection.temperature.uom",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.temperature"
+    },
+    {
+      "path": "scotf:inspection.temperature.value",
+      "treatment": "keep",
+      "coveredBy": "scotf:inspection.temperature"
+    },
+    {
+      "path": "scotf:trackerPlacement.description",
+      "treatment": "suppress",
+      "coveredBy": "scotf:trackerPlacement.description"
+    },
+    {
+      "path": "scotf:trackerPlacement.photoRefs",
+      "treatment": "suppress",
+      "coveredBy": "scotf:trackerPlacement.photoRefs"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.bizRules",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorMetadata.bizRules"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.dataProcessingMethod",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorMetadata.dataProcessingMethod"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.deviceID",
+      "treatment": "hash",
+      "coveredBy": "sensorElementList.sensorMetadata.deviceID"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.deviceMetadata",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorMetadata.deviceMetadata"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.endTime",
+      "treatment": "shift",
+      "coveredBy": "sensorElementList.sensorMetadata.endTime"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.rawData",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorMetadata.rawData"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.startTime",
+      "treatment": "shift",
+      "coveredBy": "sensorElementList.sensorMetadata.startTime"
+    },
+    {
+      "path": "sensorElementList.sensorMetadata.time",
+      "treatment": "shift",
+      "coveredBy": "sensorElementList.sensorMetadata.time"
+    },
+    {
+      "path": "sensorElementList.sensorReport.bizRules",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.bizRules"
+    },
+    {
+      "path": "sensorElementList.sensorReport.booleanValue",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.booleanValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.chemicalSubstance",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.chemicalSubstance"
+    },
+    {
+      "path": "sensorElementList.sensorReport.component",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.component"
+    },
+    {
+      "path": "sensorElementList.sensorReport.coordinateReferenceSystem",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.coordinateReferenceSystem"
+    },
+    {
+      "path": "sensorElementList.sensorReport.dataProcessingMethod",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.dataProcessingMethod"
+    },
+    {
+      "path": "sensorElementList.sensorReport.deviceID",
+      "treatment": "hash",
+      "coveredBy": "sensorElementList.sensorReport.deviceID"
+    },
+    {
+      "path": "sensorElementList.sensorReport.deviceMetadata",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.deviceMetadata"
+    },
+    {
+      "path": "sensorElementList.sensorReport.exception",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.exception"
+    },
+    {
+      "path": "sensorElementList.sensorReport.hexBinaryValue",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.hexBinaryValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.maxValue",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.maxValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.meanValue",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.meanValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.microorganism",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.microorganism"
+    },
+    {
+      "path": "sensorElementList.sensorReport.minValue",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.minValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.percRank",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.percRank"
+    },
+    {
+      "path": "sensorElementList.sensorReport.percValue",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.percValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.rawData",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.rawData"
+    },
+    {
+      "path": "sensorElementList.sensorReport.sDev",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.sDev"
+    },
+    {
+      "path": "sensorElementList.sensorReport.stringValue",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.stringValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.time",
+      "treatment": "shift",
+      "coveredBy": "sensorElementList.sensorReport.time"
+    },
+    {
+      "path": "sensorElementList.sensorReport.type",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.type"
+    },
+    {
+      "path": "sensorElementList.sensorReport.uom",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.uom"
+    },
+    {
+      "path": "sensorElementList.sensorReport.uriValue",
+      "treatment": "suppress",
+      "coveredBy": "sensorElementList.sensorReport.uriValue"
+    },
+    {
+      "path": "sensorElementList.sensorReport.value",
+      "treatment": "keep",
+      "coveredBy": "sensorElementList.sensorReport.value"
+    },
+    {
+      "path": "sourceList.source",
+      "treatment": "suppress",
+      "coveredBy": "sourceList"
+    },
+    {
+      "path": "sourceList.type",
+      "treatment": "suppress",
+      "coveredBy": "sourceList"
+    },
+    {
+      "path": "type",
+      "treatment": "keep",
+      "coveredBy": "type"
+    }
+  ]
+}

@@ -71,6 +71,8 @@ for (const profile of Object.keys(PROFILES)) {
   });
 }
 
+const RESERVED_HOST = /(^|\.)(example\.(com|net|org)|ref\.gs1\.org|ref\.scotf\.org)$/;
+
 describe('examples are publishable as they stand', () => {
   test('no example carries test scaffolding or real company data', async () => {
     for (const profile of Object.keys(PROFILES)) {
@@ -82,11 +84,44 @@ describe('examples are publishable as they stand', () => {
             `${profile}/${kind}/${f} carries test scaffolding; expectations belong in the sidecar`);
           // Synthetic data only: the GS1 documentation prefix and the reserved example domains.
           for (const m of raw.matchAll(/https?:\/\/([^/"]+)/g)) {
-            assert.match(m[1], /(^|\.)(example\.(com|net|org)|ref\.gs1\.org|ref\.scotf\.org)$/,
+            assert.match(m[1], RESERVED_HOST,
               `${profile}/${kind}/${f} points at ${m[1]}; examples use reserved documentation hosts only`);
           }
         }
       }
+    }
+  });
+
+  // The deidentification example is published too, and it is the one place where a file that looks
+  // like real pilot data would be least surprising to a reader. It is held to the same bar.
+  test('the deidentification example is synthetic in every file, and says so', async () => {
+    for (const kind of ['input', 'output']) {
+      const dir = join(EXAMPLES, 'deidentify', kind);
+      const files = await listDocs(dir);
+      assert.ok(files.length > 0, `the deidentification example has no ${kind} files`);
+      for (const f of files) {
+        const raw = await readFile(join(dir, f), 'utf8');
+        // Two ways to say it, because the files are two kinds of thing. An EPCIS document cannot
+        // carry a label of its own without leaving the standard, so its name carries it. The notes
+        // and the coverage report are plain JSON and say so in a field.
+        const labelled = f.includes('synthetic') || JSON.parse(raw).synthetic === true;
+        assert.ok(labelled,
+          `deidentify/${kind}/${f} is published without saying it is synthetic, in its name or in a field`);
+        for (const m of raw.matchAll(/https?:\/\/([^/"]+)/g)) {
+          assert.match(m[1], RESERVED_HOST,
+            `deidentify/${kind}/${f} points at ${m[1]}; examples use reserved documentation hosts only`);
+        }
+      }
+    }
+  });
+
+  test('the published deidentified output carries no link and no free text', async () => {
+    const dir = join(EXAMPLES, 'deidentify', 'output');
+    for (const f of (await listDocs(dir)).filter((n) => n.includes('deidentified'))) {
+      const doc = JSON.parse(await readFile(join(dir, f), 'utf8'));
+      const events = JSON.stringify(doc.epcisBody?.eventList ?? []);
+      assert.ok(!/https?:\/\//.test(events),
+        `${f}: a link survived into the published sample dataset`);
     }
   });
 });

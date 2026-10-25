@@ -1,0 +1,95 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    { "scotf": "https://ref.scotf.org/epcis-ext/" }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-09-16T18:00:00.000Z",
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-14T05:40:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "inspecting",
+        "disposition": "conformant",
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00001.0" },
+        "epcList": ["urn:epc:id:sscc:0614141.1000000001"],
+        "scotf:inspection": {
+          "inspectedBy": "supplier",
+          "acceptable": true,
+          "ripenessStage": 3,
+          "temperature": { "value": 4.0, "uom": "CEL" },
+          "defects": [{ "type": "bruising", "unitsAffected": 2 }],
+          "photoRefs": [
+            "https://example.org/photos/outbound-1000000001-a.jpg",
+            "https://example.org/photos/outbound-1000000001-b.jpg"
+          ]
+        }
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-15T10:15:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "inspecting",
+        "disposition": "conformant",
+        "readPoint": { "id": "urn:epc:id:sgln:0629999.00007.0" },
+        "epcList": ["urn:epc:id:sscc:0614141.1000000001"],
+        "scotf:inspection": {
+          "inspectedBy": "receiver",
+          "acceptable": true,
+          "ripenessStage": 4,
+          "temperature": { "value": 5.6, "uom": "CEL" },
+          "observedShelfLifeDays": 6,
+          "exceptions": ["no-photo"]
+        }
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-15T11:05:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "inspecting",
+        "disposition": "non_conformant",
+        "readPoint": { "id": "urn:epc:id:sgln:0629999.00007.0" },
+        "quantityList": [
+          { "epcClass": "urn:epc:class:lgtin:0614141.012345.L2609", "quantity": 48, "uom": "C62" }
+        ],
+        "scotf:inspection": {
+          "inspectedBy": "receiver",
+          "acceptable": false,
+          "ripenessStage": 5,
+          "temperature": { "value": 9.2, "uom": "CEL" },
+          "observedShelfLifeDays": 1,
+          "defects": [
+            { "type": "bruising", "unitsAffected": 6 },
+            { "type": "frost damage", "unitsAffected": 1 }
+          ],
+          "photoRefs": ["https://example.org/photos/arrival-L2609.jpg"]
+        }
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-16T09:20:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "inspecting",
+        "disposition": "conformant",
+        "readPoint": { "id": "urn:epc:id:sgln:0629999.00008.0" },
+        "quantityList": [
+          { "epcClass": "urn:epc:class:lgtin:0614141.012345.L2612", "quantity": 240, "uom": "C62" }
+        ],
+        "scotf:inspection": {
+          "inspectedBy": "receiver",
+          "acceptable": true,
+          "ripenessStage": 3,
+          "temperature": { "value": 5.1, "uom": "CEL" },
+          "exceptions": ["label-not-read", "unmatched"]
+        }
+      }
+    ]
+  }
+}

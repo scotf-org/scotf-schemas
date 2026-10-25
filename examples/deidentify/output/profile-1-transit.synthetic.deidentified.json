@@ -1,0 +1,155 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    {
+      "scotf": "https://ref.scotf.org/epcis-ext/"
+    }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2025-10-28T18:00:00Z",
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2025-10-28T13:12:00Z",
+        "eventTimeZoneOffset": "+00:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": [
+          "urn:epc:id:sscc:0000000.5582353208"
+        ],
+        "readPoint": {
+          "id": "urn:epc:id:sgln:0000000.52110.0"
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "ni:///sha-256;f72f71b4c6acca1686c536305524a46c",
+              "startTime": "2025-10-28T12:12:00Z",
+              "endTime": "2025-10-28T13:12:00Z"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "value": 3.8
+              },
+              {
+                "type": "RelativeHumidity",
+                "uom": "P1",
+                "value": 91.5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2025-10-28T16:45:00Z",
+        "eventTimeZoneOffset": "+00:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": [
+          "urn:epc:id:sscc:0000000.0848785818"
+        ],
+        "readPoint": {
+          "id": "urn:epc:id:sgln:0000000.52110.0"
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "ni:///sha-256;373a05d52302cfc81537c5110af0b053",
+              "startTime": "2025-10-28T15:45:00Z",
+              "endTime": "2025-10-28T16:45:00Z"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "value": 4.4
+              },
+              {
+                "type": "Illuminance",
+                "uom": "LUX",
+                "value": 120
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventID": "ni:///sha-256;4120f870f03c1326d6fb7a3e0af679a5",
+        "eventTime": "2025-10-28T21:02:00Z",
+        "eventTimeZoneOffset": "+00:00",
+        "recordTime": "2025-10-28T21:09:41Z",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": [
+          "urn:epc:id:sscc:0000000.7100915789"
+        ],
+        "readPoint": {
+          "id": "urn:epc:id:sgln:0000000.37362.0"
+        },
+        "bizLocation": {
+          "id": "urn:epc:id:sgln:0000000.17717.0"
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "ni:///sha-256;cd030da51061a39d2e07e2e997a3a63f",
+              "time": "2025-10-28T21:02:00Z"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "value": 7.9,
+                "time": "2025-10-28T21:02:00Z"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2025-10-29T14:30:00Z",
+        "eventTimeZoneOffset": "+00:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": [
+          "urn:epc:id:sscc:0000000.6044616739"
+        ],
+        "readPoint": {
+          "id": "urn:epc:id:sgln:0000000.37362.0"
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "ni:///sha-256;165f2347136891c87849d716edf7e19c",
+              "startTime": "2025-10-29T02:30:00Z",
+              "endTime": "2025-10-29T14:30:00Z"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "minValue": 2.1,
+                "maxValue": 6.4,
+                "meanValue": 4,
+                "sDev": 0.9,
+                "percRank": 95,
+                "percValue": 6.1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
