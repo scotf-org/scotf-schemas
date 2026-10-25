@@ -200,6 +200,20 @@
           "type": "number",
           "minimum": 0,
           "$comment": "Days of usable life the receiver observed, recorded so it can be compared with the estimate. The inspection object is closed, so this needs a home rather than arriving as an unknown field."
+        },
+        "exceptions": {
+          "type": "array",
+          "description": "Why a check could not be completed as the capture protocol describes. A closed code list rather than free text: an exception has to be countable across companies, and a free-text reason would carry names, sites and notes that the deidentification method would then have to strip out again. A new exception is a new code, not a new field.",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "label-not-read",
+              "no-photo",
+              "unmatched"
+            ]
+          },
+          "$comment": "The three exception indications in the Pilot 2 capture protocol. Absence of the field means no exception, and the array is never empty, so \"nothing went wrong\" cannot be confused with \"something went wrong and we did not say what\". A no-photo code is not cross-checked against photoRefs here: how many photographs a check requires is set by the capture protocol, not by this schema."
         }
       },
       "additionalProperties": false
