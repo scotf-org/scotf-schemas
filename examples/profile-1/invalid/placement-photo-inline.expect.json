@@ -1,0 +1,4 @@
+{
+  "error": "must match pattern \"^https?://\"",
+  "why": "A placement photograph pasted into the event as a base64 data URI. Placement photographs are carried by reference for the same reason as inspection photographs: an event is a record to be exchanged and queried, not an image store."
+}

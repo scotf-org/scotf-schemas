@@ -1,0 +1,4 @@
+{
+  "error": "must NOT have fewer than 1 items",
+  "why": "An empty exception list claims something went wrong without saying what. Absence of the field already means no exception, so the empty array adds only ambiguity and is rejected rather than exchanged."
+}

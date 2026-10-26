@@ -1,0 +1,47 @@
+# Tests on every pull request: fetch the GS1 schema, then validate every example against it.
+# Part of SCOTF Schemas, contributed by TOTEM LLC. Licensed under Apache-2.0.
+# Built with TOTEM Agentic OS (TAO) · https://url.totemltd.com/tao
+name: test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # Fetched rather than committed: the schema is GS1's to publish and version. Pulled in its
+      # own step so a network failure reads as a fetch problem and not as a failing test.
+      - name: Fetch the GS1 EPCIS 2.0 schema
+        run: npm run fetch:gs1
+
+      - name: Test
+        run: npm test
+
+      # The CLI is what a reader is told to run in the README quick start, so it is exercised the
+      # way they will meet it, not only through the library.
+      - name: Validator CLI runs on the examples
+        run: |
+          node bin/scotf-validate.mjs --profile profile-1 examples/profile-1/valid/*.json
+          node bin/scotf-validate.mjs --profile profile-2 examples/profile-2/valid/*.json

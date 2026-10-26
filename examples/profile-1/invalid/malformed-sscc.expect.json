@@ -1,0 +1,4 @@
+{
+  "error": "must match format \"uri\"",
+  "why": "The logistics unit is not a well formed URI, so the GS1 schema rejects it before the profile is consulted. Kept because it shows which of the two checks catches which mistake."
+}

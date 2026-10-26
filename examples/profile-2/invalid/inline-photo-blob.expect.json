@@ -1,0 +1,4 @@
+{
+  "error": "must match pattern \"^https?://\"",
+  "why": "A photograph pasted into the event as a base64 data URI. Profile 2 carries photographs by reference; an event is a record to be exchanged and queried, not an image store. A data: URI is a well formed URI, so the reference is additionally required to be retrievable over http or https."
+}

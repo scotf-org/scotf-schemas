@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ref.scotf.org/schemas/epcis/profile-1-sensor-event/1.0.json",
+  "title": "SCOTF Profile 1 \u00b7 sensor-enabled ObjectEvent for transit monitoring",
+  "description": "Constraints the SCOTF pilots place on top of the GS1 EPCIS 2.0 JSON Schema for a tracker reading carried against a logistics unit. This schema extends the standard and does not restate it: an event must satisfy the GS1 schema as well. Part of SCOTF Schemas, contributed by TOTEM LLC, Apache-2.0.",
+  "$comment": "Built with TOTEM Agentic OS (TAO) https://url.totemltd.com/tao",
+  "type": "object",
+  "required": [
+    "@context",
+    "type",
+    "schemaVersion",
+    "epcisBody"
+  ],
+  "properties": {
+    "@context": {
+      "$ref": "#/$defs/contextDeclaringScotf"
+    },
+    "type": {
+      "const": "EPCISDocument"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^2\\.0"
+    },
+    "epcisBody": {
+      "type": "object",
+      "required": [
+        "eventList"
+      ],
+      "properties": {
+        "eventList": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/sensorEvent"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "contextDeclaringScotf": {
+      "description": "An extension field whose prefix is not declared in the document context is not interoperable: a receiver cannot resolve what scotf:ripenessStage means. The GS1 schema accepts an undeclared prefix, so this profile requires the declaration.",
+      "type": "array",
+      "allOf": [
+        {
+          "contains": {
+            "const": "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+          },
+          "$comment": "The EPCIS 2.0 context must be present."
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "scotf"
+            ],
+            "properties": {
+              "scotf": {
+                "const": "https://ref.scotf.org/epcis-ext/"
+              }
+            }
+          },
+          "$comment": "The SCOTF prefix must be bound to its namespace."
+        }
+      ]
+    },
+    "sensorEvent": {
+      "type": "object",
+      "required": [
+        "type",
+        "eventTime",
+        "eventTimeZoneOffset",
+        "action",
+        "bizStep",
+        "disposition",
+        "epcList",
+        "readPoint",
+        "sensorElementList"
+      ],
+      "properties": {
+        "type": {
+          "const": "ObjectEvent"
+        },
+        "action": {
+          "const": "OBSERVE",
+          "$comment": "A reading observes the unit; it neither starts nor ends its life."
+        },
+        "bizStep": {
+          "const": "sensor_reporting"
+        },
+        "disposition": {
+          "enum": [
+            "in_transit",
+            "in_progress",
+            "conformant",
+            "non_conformant"
+          ]
+        },
+        "epcList": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ssccUrn"
+          },
+          "$comment": "Readings are carried against the logistics unit, so the pilots can join events from different companies on one pallet."
+        },
+        "readPoint": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/sglnUrn"
+            }
+          }
+        },
+        "sensorElementList": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/sensorElement"
+          }
+        },
+        "scotf:trackerPlacement": {
+          "type": "object",
+          "description": "Where the tracker sits on the pallet and on the load. The placement guidelines are written for full loads, and Pilot 1 ships less than truckload, so the placement is recorded rather than assumed: a reader can then judge what the reading represents.",
+          "required": [
+            "description"
+          ],
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "photoRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https?://"
+              },
+              "$comment": "By reference, as in Profile 2; a data: URI is a well formed URI, so the pattern does the work that format cannot."
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "sensorElement": {
+      "type": "object",
+      "required": [
+        "sensorReport"
+      ],
+      "properties": {
+        "sensorMetadata": {
+          "type": "object",
+          "properties": {
+            "startTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "endTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "deviceID": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "sensorReport": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/sensorReport"
+          }
+        }
+      }
+    },
+    "sensorReport": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "enum": [
+                "Temperature",
+                "RelativeHumidity",
+                "Illuminance"
+              ],
+              "$comment": "GS1 measurementType tokens. Confirmed present in the EPCIS 2.0 measurementType vocabulary."
+            },
+            {
+              "const": "https://ref.scotf.org/epcis-ext/Position",
+              "$comment": "The GS1 measurementType vocabulary has no geographic position type. The standard's own extension point is a non-GS1 vocabulary URI, so position is named in the SCOTF namespace rather than invented as a bare token."
+            }
+          ]
+        },
+        "uom": {
+          "$ref": "#/$defs/uomCode"
+        },
+        "value": {
+          "type": "number"
+        },
+        "minValue": {
+          "type": "number"
+        },
+        "maxValue": {
+          "type": "number"
+        },
+        "meanValue": {
+          "type": "number"
+        },
+        "sDev": {
+          "type": "number"
+        },
+        "deviceID": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coordinateReferenceSystem": {
+          "type": "string",
+          "pattern": "^EPSG:[0-9]{4,5}$",
+          "$comment": "EPSG:4326 is WGS 84. The pilots record decimal degrees in that frame."
+        },
+        "component": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "value"
+          ]
+        },
+        {
+          "required": [
+            "minValue",
+            "maxValue"
+          ]
+        },
+        {
+          "required": [
+            "meanValue"
+          ]
+        }
+      ],
+      "allOf": [
+        {
+          "$comment": "The GS1 schema does not check a unit against the UN/CEFACT code list, so a reading in 'ZZZ' or a temperature in kilograms passes it. Each measured property is pinned to the codes that can express it.",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "Temperature"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "uom": {
+                "enum": [
+                  "CEL",
+                  "FAH"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "RelativeHumidity"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "uom": {
+                "enum": [
+                  "P1"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "Illuminance"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "uom": {
+                "enum": [
+                  "LUX"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "https://ref.scotf.org/epcis-ext/Position"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "coordinateReferenceSystem",
+              "uom"
+            ],
+            "properties": {
+              "uom": {
+                "enum": [
+                  "DD"
+                ]
+              }
+            },
+            "$comment": "A coordinate without its reference frame cannot be placed on a map, and a bare 36.7378 could be degrees, radians or grads. The reference system names the frame; the unit names what the numbers are. Position is therefore pinned to DD, decimal degrees, in the same way each GS1 measurement type is pinned to the codes that can express it."
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "Temperature",
+                  "RelativeHumidity",
+                  "Illuminance"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "uom"
+            ]
+          }
+        }
+      ]
+    },
+    "uomCode": {
+      "description": "UN/CEFACT Recommendation 20 common code: CEL degree Celsius, FAH degree Fahrenheit, P1 percent, LUX lux, DD degree (decimal degrees, used with a coordinate reference system).",
+      "enum": [
+        "CEL",
+        "FAH",
+        "P1",
+        "LUX",
+        "DD"
+      ]
+    },
+    "ssccUrn": {
+      "type": "string",
+      "pattern": "^urn:epc:id:sscc:[0-9]{6,12}\\.[0-9]{5,11}$"
+    },
+    "sglnUrn": {
+      "type": "string",
+      "pattern": "^urn:epc:id:sgln:[0-9]{6,12}\\.[0-9]{0,6}\\.[0-9A-Za-z()%\\-]*$"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "error": "must NOT have duplicate items",
+  "why": "The same code twice. An exception is a fact about the check, not a count of attempts, so a repeat means a capture bug rather than two distinct problems and would distort any tally of how often it happens."
+}

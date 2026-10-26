@@ -1,0 +1,4 @@
+{
+  "error": "must NOT have additional properties",
+  "why": "A named inspector added to a record shared across companies. The inspection object is closed so a field like this is caught rather than quietly exchanged."
+}

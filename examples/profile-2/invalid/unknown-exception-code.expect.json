@@ -1,0 +1,4 @@
+{
+  "error": "must be equal to one of the allowed values",
+  "why": "An exception written as free-form wording instead of one of the three agreed codes. The list is closed so that exceptions can be counted across companies and compared between pilots; a near-miss spelling would otherwise become a fourth silent category."
+}

@@ -1,0 +1,4 @@
+{
+  "error": "must match pattern",
+  "why": "A GLN, which names a place, used where the logistics unit belongs. It is a well formed EPC URN, so the GS1 schema accepts it; only the profile knows that readings in these pilots are carried against an SSCC so events from different companies can be joined on one pallet."
+}

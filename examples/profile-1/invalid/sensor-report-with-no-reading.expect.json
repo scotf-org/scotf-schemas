@@ -1,0 +1,4 @@
+{
+  "error": "must match a schema in anyOf",
+  "why": "A sensor report that carries a unit but no value, minimum, maximum or mean. It says a measurement happened without saying what it was."
+}

@@ -1,0 +1,4 @@
+{
+  "error": "must be equal to one of the allowed values",
+  "why": "A temperature reported in KGM. The GS1 schema does not check a unit against the UN/CEFACT code list, so this passes the standard and fails the profile."
+}
