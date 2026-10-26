@@ -1,0 +1,152 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    { "scotf": "https://ref.scotf.org/epcis-ext/" }
+  ],
+  "type": "EPCISDocument",
+  "schemaVersion": "2.0",
+  "creationDate": "2026-09-14T18:00:00.000Z",
+  "epcisBody": {
+    "eventList": [
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-14T06:12:30.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": ["urn:epc:id:sscc:0614141.1000000001"],
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00001.0" },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "urn:epc:id:giai:0614141.tracker-a1",
+              "startTime": "2026-09-14T05:12:00.000-07:00",
+              "endTime": "2026-09-14T06:12:00.000-07:00"
+            },
+            "sensorReport": [
+              { "type": "Temperature", "uom": "CEL", "value": 3.8 },
+              { "type": "RelativeHumidity", "uom": "P1", "value": 91.5 }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-14T09:45:10.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": ["urn:epc:id:sscc:0614141.1000000002"],
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00001.0" },
+        "scotf:trackerPlacement": {
+          "description": "Taped to the top case on the north-west corner of the pallet, facing the roller door at the Salinas cross-dock",
+          "photoRefs": ["https://example.org/photos/placement-a2.jpg"]
+        },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "urn:epc:id:giai:0614141.tracker-a2",
+              "startTime": "2026-09-14T08:45:00.000-07:00",
+              "endTime": "2026-09-14T09:45:00.000-07:00"
+            },
+            "sensorReport": [
+              { "type": "Temperature", "uom": "CEL", "value": 4.4 },
+              { "type": "Illuminance", "uom": "LUX", "value": 120 },
+              {
+                "type": "https://ref.scotf.org/epcis-ext/Position",
+                "coordinateReferenceSystem": "EPSG:4326",
+                "component": "latitude",
+                "value": 36.6777,
+                "uom": "DD"
+              },
+              {
+                "type": "https://ref.scotf.org/epcis-ext/Position",
+                "coordinateReferenceSystem": "EPSG:4326",
+                "component": "longitude",
+                "value": -121.6555,
+                "uom": "DD"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventID": "ni:///sha-256;11aa22bb33cc44dd55ee66ff7788990011223344556677889900aabbccddeeff?ver=CBV2.0",
+        "eventTime": "2026-09-14T14:02:05.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "recordTime": "2026-09-14T14:09:41.000-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": ["urn:epc:id:sscc:0614141.1000000003"],
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00003.0" },
+        "bizLocation": { "id": "urn:epc:id:sgln:0614141.00002.0" },
+        "bizTransactionList": [
+          { "type": "po", "bizTransaction": "urn:epcglobal:cbv:bt:0614141:PO-55120" }
+        ],
+        "sourceList": [
+          { "type": "owning_party", "source": "urn:epc:id:pgln:0614141.00000" }
+        ],
+        "destinationList": [
+          { "type": "owning_party", "destination": "urn:epc:id:pgln:0629999.00000" }
+        ],
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "urn:epc:id:giai:0614141.tracker-b1",
+              "time": "2026-09-14T14:02:00.000-07:00",
+              "deviceMetadata": "https://example.org/fleet/tracker-roster-2026.csv",
+              "rawData": "https://example.org/raw/lane-b-salinas-to-depot.csv",
+              "dataProcessingMethod": "https://example.org/sop/cold-chain-internal-v4",
+              "bizRules": "https://example.org/contracts/supply-agreement-4471"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "value": 7.9,
+                "time": "2026-09-14T14:02:00.000-07:00",
+                "stringValue": "door left open at the depot, checked by the duty supervisor",
+                "uriValue": "https://example.org/notes/incident-55120"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "ObjectEvent",
+        "eventTime": "2026-09-15T07:30:00.000-07:00",
+        "eventTimeZoneOffset": "-07:00",
+        "action": "OBSERVE",
+        "bizStep": "sensor_reporting",
+        "disposition": "in_transit",
+        "epcList": ["urn:epc:id:sscc:0614141.1000000004"],
+        "readPoint": { "id": "urn:epc:id:sgln:0614141.00003.0" },
+        "sensorElementList": [
+          {
+            "sensorMetadata": {
+              "deviceID": "urn:epc:id:giai:0614141.tracker-b2",
+              "startTime": "2026-09-14T19:30:00.000-07:00",
+              "endTime": "2026-09-15T07:30:00.000-07:00"
+            },
+            "sensorReport": [
+              {
+                "type": "Temperature",
+                "uom": "CEL",
+                "minValue": 2.1,
+                "maxValue": 6.4,
+                "meanValue": 4.0,
+                "sDev": 0.9,
+                "percRank": 95,
+                "percValue": 6.1
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

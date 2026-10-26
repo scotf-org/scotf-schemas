@@ -1,0 +1,10 @@
+{
+  "note": "Synthetic. Supplied by the data owner, because a role cannot be read out of a GLN: only the owner knows which of its facilities is a receiving site. A site absent from this map is published as role class 'unstated' rather than guessed.",
+  "roles": {
+    "urn:epc:id:sgln:0614141.00001.0": "supplier site",
+    "urn:epc:id:sgln:0614141.00002.0": "supplier cross-dock",
+    "urn:epc:id:sgln:0614141.00003.0": "distribution center",
+    "urn:epc:id:sgln:0629999.00007.0": "receiving site",
+    "urn:epc:id:sgln:0629999.00008.0": "receiving site"
+  }
+}

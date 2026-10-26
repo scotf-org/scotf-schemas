@@ -80,6 +80,40 @@ cannot be confused with "something went wrong and we did not say what".
 `examples/*/invalid/` holds documents that are wrong on purpose. Each has a sidecar saying which
 error it should produce and why, so the rule it documents cannot quietly stop being enforced.
 
+## Deidentifying a dataset
+
+The profiles describe events a pilot records. Publishing those events is a separate problem: the
+same data that shows a temperature curve also shows which supplier shipped to which site, on
+which day, in what quantity. `src/treatments.mjs` holds one treatment for every property an event
+may carry, and `scotf-deidentify` applies it:
+
+```bash
+npm run deidentify            # regenerates examples/deidentify/output from its seed
+npx scotf-deidentify --seed my-secret --in my-events/ --out released/
+```
+
+Everything derives from the seed, so the same seed gives the same dataset and CI can regenerate
+the committed sample and compare it. The seed and the keys it derives are never written to the
+output: they stay with the data owner, which is what stops two released datasets being joined.
+
+Two constraints are worth knowing before you read the sample.
+
+- **A deidentified event is still an EPCIS event.** The output is validated against its profile,
+  the same as the input. That rules out some obvious-looking treatments: a site cannot be replaced
+  by the words "receiving site", because `readPoint.id` must be a URI and the GS1 schema rejects a
+  bare label. Sites become synthetic GLNs under a prefix assigned to nobody, and the role each one
+  plays is published beside the data in `dataset-notes.json`.
+- **A role cannot be read out of a GLN.** Only the owner knows which of its facilities is a
+  receiving site, so the role map is an input to the method. A site that is not in it is published
+  as `unstated` rather than guessed.
+
+Two tests guard the table. One checks that every property path the schemas allow has a treatment,
+over the union of the GS1 `ObjectEvent` properties and the properties the profiles add — a list
+taken from the profiles alone would not include `eventTime`, which is the field the whole
+time-shift rule exists for. The other checks what happens to data: that identifiers change but
+still join, that intervals survive, and that a field with no treatment is removed and recorded
+rather than carried, so a field nobody has considered cannot leak by being overlooked.
+
 ## Status
 
 In development for the SCOTF Batch 2 release (November 2026). Interfaces may change until v1.0.

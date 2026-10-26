@@ -45,3 +45,11 @@ jobs:
         run: |
           node bin/scotf-validate.mjs --profile profile-1 examples/profile-1/valid/*.json
           node bin/scotf-validate.mjs --profile profile-2 examples/profile-2/valid/*.json
+
+      # The worked example is regenerated from its seed and the result compared with what is
+      # committed. A sample dataset that no longer matches the code that made it is worse than no
+      # sample at all: a reader would be reading treatments nobody applies any more.
+      - name: Worked example reproduces the committed sample dataset
+        run: |
+          npm run deidentify
+          git diff --exit-code -- examples/deidentify/output
