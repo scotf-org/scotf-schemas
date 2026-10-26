@@ -1,0 +1,84 @@
+{
+  "synthetic": true,
+  "note": "A synthetic dataset, shaped like the SCOTF pilots. No real company, site, shipment or reading appears in it.",
+  "method": "SCOTF deidentification method, Table 2 treatments applied field by field.",
+  "reproducibility": "Derived from a seed given on the command line. The same seed gives the same dataset.",
+  "keyCustody": "The hash key and the time offset are derived from the seed and are not published. They stay with the data owner.",
+  "resolutions": {
+    "time": "Every time is shifted by one whole number of days, the same for the whole dataset, and eventTime is rounded to the minute. Intervals, order and the shape of a curve are unchanged.",
+    "timeZone": "eventTimeZoneOffset is published as +00:00 and times are published in UTC, because a time zone narrows the location.",
+    "location": "Each site is published as a synthetic SGLN under the dataset prefix 0000000, with its role class listed below. The real facility identifier does not appear.",
+    "quantity": "A quantity above 10 is published as the floor of its band. A group below the minimum size has its quantity suppressed.",
+    "position": "Position reports are removed. A track is the strongest location signal in a pilot dataset."
+  },
+  "siteRoleClasses": [
+    {
+      "id": "urn:epc:id:sgln:0000000.52110.0",
+      "roleClass": "supplier site"
+    },
+    {
+      "id": "urn:epc:id:sgln:0000000.37362.0",
+      "roleClass": "distribution center"
+    },
+    {
+      "id": "urn:epc:id:sgln:0000000.17717.0",
+      "roleClass": "supplier cross-dock"
+    },
+    {
+      "id": "urn:epc:id:sgln:0000000.54036.0",
+      "roleClass": "receiving site"
+    },
+    {
+      "id": "urn:epc:id:sgln:0000000.72006.0",
+      "roleClass": "receiving site"
+    }
+  ],
+  "riskReview": [
+    {
+      "check": "minimum group size",
+      "minimum": 5,
+      "groups": 4,
+      "groupsBelowMinimum": 4,
+      "quantitiesSuppressed": 2,
+      "outcome": "changed",
+      "detail": "4 of 4 groups hold fewer than 5 records, so their quantities are suppressed. This dataset is deliberately small, so most groups are below the minimum."
+    },
+    {
+      "check": "uniqueness",
+      "outcome": "review",
+      "detail": "Each remaining record is unique on role class and month in a dataset this small. An owner releasing real data reviews whether that combination is knowable from outside."
+    },
+    {
+      "check": "linkage",
+      "outcome": "passed",
+      "detail": "The hash key and the time offset are derived per dataset from the seed and are never published, so two released datasets cannot be joined on an identifier or a date."
+    },
+    {
+      "check": "extremes and rare values",
+      "outcome": "review",
+      "lowestTemperature": 2.1,
+      "highestTemperature": 9.2,
+      "rareDefectTypesRegrouped": 2,
+      "defectEntriesRegrouped": 3,
+      "detail": "Defect types seen fewer than the minimum number of times are regrouped under \"other\". The temperature range is reported for a person to judge, because an extreme reading can identify an incident that insiders remember."
+    },
+    {
+      "check": "residual text and references",
+      "outcome": "passed",
+      "hits": []
+    }
+  ],
+  "documents": [
+    {
+      "source": "profile-1-transit.synthetic.json",
+      "profile": "profile-1",
+      "events": 4
+    },
+    {
+      "source": "profile-2-inspections.synthetic.json",
+      "profile": "profile-2",
+      "events": 4
+    }
+  ],
+  "fieldsSuppressedByDefault": []
+}
